@@ -17,7 +17,6 @@ Vue.use(VueRouter);
 // 1.4:实例化
 const router = new VueRouter({
   routes:[
-      //2.3.1默认路由
       {path:"/", component:login }
   ]
 });

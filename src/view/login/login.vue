@@ -1,5 +1,7 @@
 <template>
-    <div>login页面</div>
+    <div>
+        login页面
+    </div>
 </template>
 
 <script>
