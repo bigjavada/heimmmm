@@ -8,6 +8,7 @@
 1.6:在app.vue中写路由接口(router-view)
 */
 // 1.0:导入子组件
+import login from '@/view/login/login.vue'
 
 import Vue from 'vue'
 // 1.2：导入路由
@@ -17,7 +18,7 @@ Vue.use(VueRouter);
 // 1.4:实例化
 const router = new VueRouter({
   routes:[
-    //   {path:"/", component:login }
+      {path:"/", component:login }
   ]
 });
 // 1.5:输出出去
