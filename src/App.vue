@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div class="app">
       
       <!-- 1.6:路由出口 -->
       <router-view></router-view>
@@ -17,4 +17,5 @@ export default {
 // 使用less lang="less"
 // 使用@导入style文件前面加上@
 @import url(~@/style/base.css);
+
 </style>
