@@ -9,7 +9,7 @@
 */
 // 1.0:导入子组件
 
-
+import Vue from 'vue'
 // 1.2：导入路由
 import VueRouter from 'vue-router';
 // 1.2:注册
@@ -17,7 +17,7 @@ Vue.use(VueRouter);
 // 1.4:实例化
 const router = new VueRouter({
   routes:[
-      {path:"/", component:login }
+    //   {path:"/", component:login }
   ]
 });
 // 1.5:输出出去
