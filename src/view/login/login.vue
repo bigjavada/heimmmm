@@ -73,19 +73,27 @@
           <el-button type="primary" class="btn" @click="subForm">登录</el-button>
           <br />
           <!-- 不写换行由于回车导致按钮前面的空格 -->
-          <el-button type="primary" class="btn">注册</el-button>
+          <el-button type="primary" class="btn" @click="register">注册</el-button>
         </el-form-item>
       </el-form>
     </div>
     <div class="right">
       <img src="@/assets/img/login_banner_ele.png" alt />
     </div>
+    <register ref="reg"></register>
   </div>
 </template>
 
 <script>
+/* 
+  1:导入子组件
+  2:注册
+  3:使用标签
+*/
+import register from './register.vue';
 export default {
   name: "login",
+  components:{register},
   data() {
     return {
       form: {
@@ -114,6 +122,9 @@ export default {
       this.$refs.form.validate(result => {
         this.$message.success(result + "");
       });
+    },
+    register(){
+      this.$refs.reg.dialogFormVisible = true
     }
   }
 };
