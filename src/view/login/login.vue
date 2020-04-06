@@ -33,8 +33,8 @@
                 true验证通过
                 false表示 验证不通过
               })
-       -->
-      <el-form ref="form" :model="form" :rules="rules" >
+      -->
+      <el-form ref="form" :model="form" :rules="rules">
         <!-- 手机号 -->
         <el-form-item prop="phone">
           <el-input v-model="form.phone" prefix-icon="el-icon-user" placeholder="请输入手机号"></el-input>
@@ -55,7 +55,7 @@
               <el-input v-model="form.code" prefix-icon="el-icon-key" placeholder="请输入验证码"></el-input>
             </el-col>
             <el-col :span="8">
-              <img src="@/assets/img/key.jpg" class="key" :key="key" />
+              <img src="@/assets/img/key.jpg" class="key" />
             </el-col>
           </el-row>
         </el-form-item>
@@ -70,8 +70,9 @@
         </el-form-item>
         <!-- 5:按钮 -->
         <el-form-item>
-          <el-button type="primary" class="btn" @click="subForm(form)">登录</el-button>
-          <br><!-- 不写换行由于回车导致按钮前面的空格 -->
+          <el-button type="primary" class="btn" @click="subForm">登录</el-button>
+          <br />
+          <!-- 不写换行由于回车导致按钮前面的空格 -->
           <el-button type="primary" class="btn">注册</el-button>
         </el-form-item>
       </el-form>
@@ -88,25 +89,32 @@ export default {
   data() {
     return {
       form: {
-        phone:'',//手机号
-        password:'',//密码
-        code:'',//验证码
-        isCheck:''//多选框的值(true/false)
+        phone: "", //手机号
+        password: "", //密码
+        code: "", //验证码
+        isCheck: "" //多选框的值(true/false)
       },
-      rules:{
-        name:[{required:true,message:"请输入手机号",trigger:"change"}],
+      rules: {
+        phone: [{ required: true, message: "请输入手机号", trigger: "change" }],
         // 密码 6-12位,不能为空
-        password:[{required:true,message:"请输入密码",trigger:"change"},{min: 6, max: 12, message: '长度在6到12个字符', trigger: 'blur' }],
-        code:[{required:true,message:"请输入验证码",trigger:"change"}],
-      },
-      methods: {
-        subForm(){
-          this.$refs.form.validata((valid)=>{
-              this.message.success(valid);
-          })
-        },
-      },
+        password: [
+          { required: true, message: "请输入密码", trigger: "change" },
+          { min: 6, max: 12, message: "长度在6到12个字符", trigger: "blur" }
+        ],
+        code: [
+          { required: true, message: "请输入验证码", trigger: "change" },
+          { min: 4, max: 4, message: "长度在6到12个字符", trigger: "blur" }
+        ]
+      }
     };
+  },
+
+  methods: {
+    subForm() {
+      this.$refs.form.validate(result => {
+        this.$message.success(result + "");
+      });
+    }
   }
 };
 </script>
@@ -147,15 +155,14 @@ export default {
       font-size: 22px;
       color: rgba(12, 12, 12, 1);
     }
-    .key{
+    .key {
       width: 100%;
       height: 40px;
     }
-    .btn{
+    .btn {
       width: 100%;
-      margin-bottom: 26px
+      margin-bottom: 26px;
     }
-    
   }
 }
 </style>
