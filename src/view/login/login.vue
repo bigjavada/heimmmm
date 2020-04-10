@@ -3,7 +3,7 @@
     <div class="left">
       <div class="title">
         <img src="@/assets/img/login.png" alt />
-        <span class="titleName">黑马面面</span>
+        <span class="titleName">学生选课系统</span>
         <span class="titleLinee">|</span>
         <span class="titleName2">用户登录</span>
       </div>
@@ -73,14 +73,15 @@
           <el-button type="primary" class="btn" @click="subForm">登录</el-button>
           <br />
           <!-- 不写换行由于回车导致按钮前面的空格 -->
-          <el-button type="primary" class="btn" @click="register">注册</el-button>
+          <el-button type="primary" class="btn" @click="registerClick">注册</el-button>
         </el-form-item>
       </el-form>
     </div>
     <div class="right">
       <img src="@/assets/img/login_banner_ele.png" alt />
     </div>
-    <register ref="reg"></register>
+    <!-- 组件中套用其它组件 导入register,设置ref值,最后点击注册按钮触发点击事件-->
+    <register ref="register"></register>
   </div>
 </template>
 
@@ -90,7 +91,7 @@
   2:注册
   3:使用标签
 */
-import register from './register.vue';
+import register from "./register.vue";
 export default {
   name: "login",
   components:{register},
@@ -116,15 +117,31 @@ export default {
       }
     };
   },
-
+  mounted() {
+    // alert(process.env.VUE_APP_URL);
+    /* 
+    1. 定义
+      (1). 开发环境定义
+        1. 创建一个.env.development
+        2. 在该文件下可以定义一些开发环境使用的全局变量
+          *名字有一个规则  必须 VUE_APP_开头
+      (2). 生产环境
+        1. 创建一个.env.production 
+        2. 在该文件下可以定义一些生产环境使用的全局变量
+          *名字有一个规则  必须 VUE_APP_开头
+    2. 使用定义的变量
+      1. 固定写法：process.env.变量名（VUE_APP_开头的变量）
+    3. 注意点：定义好后要重新执行npm run serve才能使用定义的变量 */
+    
+  },
   methods: {
     subForm() {
       this.$refs.form.validate(result => {
         this.$message.success(result + "");
       });
     },
-    register(){
-      this.$refs.reg.dialogFormVisible = true
+    registerClick(){
+      this.$refs.register.dialogFormVisible = true;
     }
   }
 };
