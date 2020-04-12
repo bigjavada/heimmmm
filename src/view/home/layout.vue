@@ -10,8 +10,8 @@
         <!-- 这里直接拼接,由于请求是在渲染请获取,而渲染的时候userInfo没有值,导致会报404 -->
         <!-- <img class="avatar" :src="baseUrl+'/'+userInfo.avatar" alt /> -->
         <!-- 解决方法:直接在created方法里面重新赋值 -->
-        <img class="avatar" :src="userInfo.avatar" alt />
-        <span class="name">{{ userInfo.username}},您好</span>
+        <img class="avatar" :src="$store.state.userInfo.avatar" alt />
+        <span class="name">{{ $store.state.userInfo.username}},您好</span>
         <el-button type="primary" @click="exit">退出</el-button>
       </div>
     </el-header>
@@ -85,6 +85,8 @@ export default {
       // 优化:不仅没有报错了而且少定义了baseUrl基地址
       this.userInfo.avatar =
         process.env.VUE_APP_URL + "/" + this.userInfo.avatar;
+        //将获取的用户数据存入vuex的共享数据store中
+        this.$store.state.userInfo = this.userInfo;
     });
   },
   methods: {

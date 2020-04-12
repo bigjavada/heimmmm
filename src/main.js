@@ -12,8 +12,12 @@ import 'element-ui/lib/theme-chalk/index.css';
 // 2.3：注册
 Vue.use(ElementUI);
 
+//vuex
+import store from '@/store/index.js'
+
 new Vue({
   render: h => h(App),
   // 1.7:将router在main.js中挂载实例中
   router,
+  store,//vuex
 }).$mount('#app')

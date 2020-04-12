@@ -25,18 +25,18 @@ Vue.use(VueRouter);
 const router = new VueRouter({
   routes:[
       {
-        path:"/", component:login 
+        path:"/", component:login ,meta:{title:'登录'}
       },
       {
         path: "/home",
         component: layout,
         redirect:'/home/subject',
         children:[
-          {path:"chart", component:chart },
-          {path:"userList", component:userList },
-          {path:"question", component:question },
-          {path:"business", component:business },
-          {path:"subject", component:subject },
+          {path:"chart", component:chart,meta:{title:'数据概览'} },
+          {path:"userList", component:userList,meta:{title:'用户列表'} },
+          {path:"question", component:question ,meta:{title:'题库列表'}},
+          {path:"business", component:business,meta:{title:'企业列表'} },
+          {path:"subject", component:subject ,meta:{title:'学科列表'}},
         ],
     }
   ]
@@ -55,6 +55,8 @@ router.beforeEach((to,form,next)=>{
 //后守卫
 router.afterEach((to,from)=>{
   Nprogress.done();
+  // document.title = this.$route.meta.title;
+  document.title = to.meta.title;
   window.console.log(from);
 });
 
