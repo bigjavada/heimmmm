@@ -55,12 +55,12 @@
               <el-input v-model="form.code" prefix-icon="el-icon-key" placeholder="请输入验证码"></el-input>
             </el-col>
             <el-col :span="8">
-              <img src="@/assets/img/key.jpg" class="key" />
+              <img :src="code" class="key" @click="codeClick"/>
             </el-col>
           </el-row>
         </el-form-item>
         <!-- 4:多选框:v-model默认值为空字符串,这样选择结果为true和false -->
-        <el-form-item>
+        <el-form-item prop="isCheck">
           <el-checkbox v-model="form.isCheck">
             我已经阅读并同意
             <!-- el-link  type值决定颜色 -->
@@ -92,11 +92,15 @@
   3:使用标签
 */
 import register from "./register.vue";
+import {toLogin} from "@/api/login.js";
+import {saveToken} from '@/utils/token.js'//导入token(saveToken为添加token)
+import {getToken} from '@/utils/token.js'
 export default {
   name: "login",
   components:{register},
   data() {
     return {
+      code: process.env.VUE_APP_URL + "/captcha?type=login",//验证码发送请求
       form: {
         phone: "", //手机号
         password: "", //密码
@@ -104,7 +108,22 @@ export default {
         isCheck: "" //多选框的值(true/false)
       },
       rules: {
-        phone: [{ required: true, message: "请输入手机号", trigger: "change" }],
+        phone: [
+          { required: true, message: "请输入手机号", trigger: "change" },
+          {
+            validator: (rule, value, callback) => {
+              if (
+                /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/.test(
+                  value
+                )
+              ) {
+                callback();
+              } else {
+                callback("请输入正确的手机格式");
+              }
+            }
+          }
+        ],
         // 密码 6-12位,不能为空
         password: [
           { required: true, message: "请输入密码", trigger: "change" },
@@ -112,10 +131,28 @@ export default {
         ],
         code: [
           { required: true, message: "请输入验证码", trigger: "change" },
-          { min: 4, max: 4, message: "长度在6到12个字符", trigger: "blur" }
+          { min: 4, max: 4, message: "长度为4个字符", trigger: "blur" }
+        ],
+        isCheck:[
+          { required: true, message: "请勾选协议", trigger: "change" },
+          {
+            validator: (rule, value, callback) => {
+              if (value == true){
+                callback();
+              } else {
+                callback("请勾选协议");
+              }
+            }
+          }
         ]
       }
     };
+  },
+  created() {
+    // 有 token getToken()为真,没有token getToken()为假
+    if(getToken()){
+      this.$router.push('/home');
+    }
   },
   mounted() {
     // alert(process.env.VUE_APP_URL);
@@ -135,13 +172,30 @@ export default {
     
   },
   methods: {
+    // 登录
     subForm() {
       this.$refs.form.validate(result => {
-        this.$message.success(result + "");
+        window.console.log('1');
+        // 如果值为true说明文本框的值都填了
+        if(result == true){
+            toLogin(this.form).then(res=>{
+            this.$message.success('登录成功');
+            console.log('1');
+            window.console.log('登录信息',res);
+            //登录后保存获取的token
+            saveToken(res.data.token);
+            this.$router.push('/home');
+            });
+        }
       });
     },
+    // 注册
     registerClick(){
       this.$refs.register.dialogFormVisible = true;
+    },
+    // 验证码点击
+    codeClick(){
+        this.code = process.env.VUE_APP_URL + "/captcha?type=login"+Date.now();
     }
   }
 };
